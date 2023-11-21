@@ -1,8 +1,12 @@
-﻿namespace _net.Models;
+﻿using System.Text.Json.Serialization;
 
-public enum RpgClass
+namespace _net.Models
 {
-    Knight = 1,
-    Mage = 2,
-    Cleric = 3
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum RpgClass
+    {
+        Knight = 1,
+        Mage = 2,
+        Cleric = 3
+    }
 }
