@@ -31,5 +31,16 @@ namespace _net.Controllers
         {
             return Ok(await _characterService.AddCharacter(character));
         }
+        
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<List<CharacterResponseDto>>>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+        {
+            var response = await _characterService.UpdateCharacter(updatedCharacter);
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }

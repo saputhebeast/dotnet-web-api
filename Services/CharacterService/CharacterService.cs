@@ -42,5 +42,32 @@ namespace _net.Services.CharacterService
             serviceResponse.Data = characters.Select(c => _mapper.Map<CharacterResponseDto>(c)).ToList();
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<CharacterResponseDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+        {
+            var serviceResponse = new ServiceResponse<CharacterResponseDto>();
+            try
+            {
+                var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+                if (character is null)
+                    throw new Exception($"character with id '{updatedCharacter.Id}' not found");
+                
+                character.Name = updatedCharacter.Name;
+                character.HitPoints = updatedCharacter.HitPoints;
+                character.Strength = updatedCharacter.Strength;
+                character.Defence = updatedCharacter.Defence;
+                character.Intelligence = updatedCharacter.Intelligence;
+                character.Class = updatedCharacter.Class;
+
+                serviceResponse.Data = _mapper.Map<CharacterResponseDto>(character);
+            }
+            catch (Exception e)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = e.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }

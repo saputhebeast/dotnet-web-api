@@ -7,5 +7,6 @@ namespace _net.Services.CharacterService
         Task<ServiceResponse<List<CharacterResponseDto>>> GetAllCharacters();
         Task<ServiceResponse<CharacterResponseDto>> GetCharacterById(int id);
         Task<ServiceResponse<List<CharacterResponseDto>>> AddCharacter(CharacterRequestDto newCharacter);
+        Task<ServiceResponse<CharacterResponseDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter);
     }
 }
