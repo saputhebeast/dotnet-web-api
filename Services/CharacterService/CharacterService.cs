@@ -51,6 +51,8 @@ namespace _net.Services.CharacterService
                 var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
                 if (character is null)
                     throw new Exception($"character with id '{updatedCharacter.Id}' not found");
+
+                _mapper.Map(updatedCharacter, character);
                 
                 character.Name = updatedCharacter.Name;
                 character.HitPoints = updatedCharacter.HitPoints;

@@ -9,6 +9,7 @@ namespace _net
         {
             CreateMap<Character, CharacterResponseDto>();
             CreateMap<CharacterRequestDto, Character>();
+            CreateMap<UpdateCharacterDto, Character>();
         }
     }
 }
