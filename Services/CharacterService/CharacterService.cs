@@ -15,10 +15,10 @@ namespace _net.Services.CharacterService
             _context = context;
         }
         
-        public async Task<ServiceResponse<List<CharacterResponseDto>>> GetAllCharacters()
+        public async Task<ServiceResponse<List<CharacterResponseDto>>> GetAllCharacters(int id)
         {
             var serviceResponse = new ServiceResponse<List<CharacterResponseDto>>();
-            var dbCharacters = await _context.Characters.ToListAsync();
+            var dbCharacters = await _context.Characters.Where(c => c.User!.Id == id).ToListAsync();
             serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<CharacterResponseDto>(c)).ToList();
             return serviceResponse;
         }

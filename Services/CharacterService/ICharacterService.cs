@@ -4,7 +4,7 @@ namespace _net.Services.CharacterService
 {
     public interface ICharacterService
     {
-        Task<ServiceResponse<List<CharacterResponseDto>>> GetAllCharacters();
+        Task<ServiceResponse<List<CharacterResponseDto>>> GetAllCharacters(int id);
         Task<ServiceResponse<CharacterResponseDto>> GetCharacterById(int id);
         Task<ServiceResponse<List<CharacterResponseDto>>> AddCharacter(CharacterRequestDto newCharacter);
         Task<ServiceResponse<CharacterResponseDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter);
