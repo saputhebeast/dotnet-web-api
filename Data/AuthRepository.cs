@@ -11,14 +11,21 @@
         
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
-            
+
+            var response = new ServiceResponse<int>();
+            if (await UserExists(user.Username))
+            {
+                response.Success = false;
+                response.Message = "User already exists";
+                return response;
+            }
+
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            var response = new ServiceResponse<int>();
             response.Data = user.Id;
             return response;
         }
@@ -28,12 +35,13 @@
             throw new NotImplementedException();
         }
 
-        public Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string username)
         {
-            throw new NotImplementedException();
+            return await _context.Users.AnyAsync(u =>
+                string.Equals(u.Username.ToLower(), username.ToLower(), StringComparison.Ordinal));
         }
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
