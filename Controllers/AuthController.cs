@@ -25,5 +25,17 @@ namespace _net.Controllers
 
             return Ok(response);
         }
+        
+        [HttpPost("Login")]
+        public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto userLoginDto)
+        {
+            var response = await _authRepository.Login(userLoginDto.Username, userLoginDto.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
     }
 }
