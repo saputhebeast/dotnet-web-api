@@ -1,4 +1,4 @@
-﻿namespace _net
+﻿namespace _net.Data
 {
     public class DataContext : DbContext
     {
