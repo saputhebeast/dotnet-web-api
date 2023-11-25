@@ -26,7 +26,11 @@
             
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+            
             response.Data = user.Id;
+            response.Message = "User created successfully";
+            response.Success = true;
+            
             return response;
         }
 
@@ -37,8 +41,11 @@
 
         public async Task<bool> UserExists(string username)
         {
-            return await _context.Users.AnyAsync(u =>
-                string.Equals(u.Username.ToLower(), username.ToLower(), StringComparison.Ordinal));
+            if (await _context.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower()))
+            {
+                return true;
+            }
+            return false;
         }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
