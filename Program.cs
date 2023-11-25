@@ -1,5 +1,6 @@
 global using _net.Models;
 global using _net.Services.CharacterService;
+global using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
