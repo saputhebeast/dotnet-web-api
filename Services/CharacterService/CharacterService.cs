@@ -42,12 +42,15 @@ namespace _net.Services.CharacterService
         {
             var serviceResponse = new ServiceResponse<List<CharacterResponseDto>>();
             var character = _mapper.Map<Character>(newCharacter);
-
+            character.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == GetUserId());
+            
             _context.Characters.Add(character);
             await _context.SaveChangesAsync();
             
-            var dbCharacters = await _context.Characters.ToListAsync();
-            serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<CharacterResponseDto>(c)).ToList();
+            serviceResponse.Data = await _context.Characters
+                .Where(c => c.User!.Id == GetUserId())
+                .Select(c => _mapper.Map<CharacterResponseDto>(c))
+                .ToListAsync();
             return serviceResponse;
         }
 
