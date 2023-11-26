@@ -33,7 +33,7 @@ namespace _net.Services.CharacterService
         public async Task<ServiceResponse<CharacterResponseDto>> GetCharacterById(int id)
         {
             var serviceResponse = new ServiceResponse<CharacterResponseDto>();
-            var dbCharacter = await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+            var dbCharacter = await _context.Characters.FirstOrDefaultAsync(c => c.Id == id && c.User!.Id == GetUserId());
             serviceResponse.Data = _mapper.Map<CharacterResponseDto>(dbCharacter);
             return serviceResponse;
         }
@@ -82,14 +82,17 @@ namespace _net.Services.CharacterService
 
             try
             {
-                var character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+                var character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == id && c.User!.Id == GetUserId());
                 if (character is null)
                     throw new Exception($"Character with Id '{id}' not found.");
 
                 _context.Characters.Remove(character);
                 await _context.SaveChangesAsync();
                 
-                serviceResponse.Data = await _context.Characters.Select(c => _mapper.Map<CharacterResponseDto>(c)).ToListAsync();
+                serviceResponse.Data = await _context.Characters
+                    .Where(c => c.User!.Id == GetUserId())
+                    .Select(c => _mapper.Map<CharacterResponseDto>(c))
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
