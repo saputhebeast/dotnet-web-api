@@ -22,6 +22,21 @@ namespace net.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CharacterSkill", b =>
+                {
+                    b.Property<int>("CharactersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharactersId", "SkillsId");
+
+                    b.HasIndex("SkillsId");
+
+                    b.ToTable("CharacterSkill");
+                });
+
             modelBuilder.Entity("_net.Models.Character", b =>
                 {
                     b.Property<int>("Id")
@@ -46,9 +61,6 @@ namespace net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SkillId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Strength")
                         .HasColumnType("int");
 
@@ -56,8 +68,6 @@ namespace net.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SkillId");
 
                     b.HasIndex("UserId");
 
@@ -155,12 +165,23 @@ namespace net.Migrations
                     b.ToTable("Weapons");
                 });
 
+            modelBuilder.Entity("CharacterSkill", b =>
+                {
+                    b.HasOne("_net.Models.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharactersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_net.Models.Skill", null)
+                        .WithMany()
+                        .HasForeignKey("SkillsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("_net.Models.Character", b =>
                 {
-                    b.HasOne("_net.Models.Skill", null)
-                        .WithMany("Characters")
-                        .HasForeignKey("SkillId");
-
                     b.HasOne("_net.Models.User", "User")
                         .WithMany("Characters")
                         .HasForeignKey("UserId");
@@ -182,11 +203,6 @@ namespace net.Migrations
             modelBuilder.Entity("_net.Models.Character", b =>
                 {
                     b.Navigation("Weapon");
-                });
-
-            modelBuilder.Entity("_net.Models.Skill", b =>
-                {
-                    b.Navigation("Characters");
                 });
 
             modelBuilder.Entity("_net.Models.User", b =>

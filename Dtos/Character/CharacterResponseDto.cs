@@ -1,4 +1,5 @@
-﻿using _net.Dtos.Weapon;
+﻿using _net.Dtos.Skill;
+using _net.Dtos.Weapon;
 
 namespace _net.Dtos
 {
@@ -12,5 +13,6 @@ namespace _net.Dtos
         public int Intelligence { get; set; } = 10;
         public RpgClass Class { get; set; } = RpgClass.Knight;
         public WeaponResponseDto? Weapon { get; set; }
+        public List<SkillResponseDto>? Skills { get; set; }
     }
 }

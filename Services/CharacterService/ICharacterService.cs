@@ -9,5 +9,6 @@ namespace _net.Services.CharacterService
         Task<ServiceResponse<List<CharacterResponseDto>>> AddCharacter(CharacterRequestDto newCharacter);
         Task<ServiceResponse<CharacterResponseDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter);
         Task<ServiceResponse<List<CharacterResponseDto>>> DeleteCharacter(int id);
+        Task<ServiceResponse<CharacterResponseDto>> AddCharacterSkill(CharacterSkillsRequestDto characterSkillsRequestDto);
     }
 }

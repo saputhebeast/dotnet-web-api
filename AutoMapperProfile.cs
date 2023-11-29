@@ -1,4 +1,5 @@
 ﻿using _net.Dtos;
+using _net.Dtos.Skill;
 using _net.Dtos.Weapon;
 using AutoMapper;
 
@@ -12,6 +13,7 @@ namespace _net
             CreateMap<CharacterRequestDto, Character>();
             CreateMap<UpdateCharacterDto, Character>();
             CreateMap<Weapon, WeaponResponseDto>();
+            CreateMap<Skill, SkillResponseDto>();
         }
     }
 }
