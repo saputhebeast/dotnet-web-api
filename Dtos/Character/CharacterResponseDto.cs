@@ -14,5 +14,8 @@ namespace _net.Dtos
         public RpgClass Class { get; set; } = RpgClass.Knight;
         public WeaponResponseDto? Weapon { get; set; }
         public List<SkillResponseDto>? Skills { get; set; }
+        public int Fights { get; set; }
+        public int Victories { get; set; }
+        public int Defeats { get; set; }
     }
 }
