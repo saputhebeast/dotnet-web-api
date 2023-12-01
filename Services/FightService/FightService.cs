@@ -1,4 +1,5 @@
 ﻿using _net.Dtos.Fight;
+using AutoMapper;
 
 namespace _net.Services.FightService
 {
@@ -6,9 +7,12 @@ namespace _net.Services.FightService
     {
         private readonly DataContext _dataContext;
 
-        public FightService(DataContext dataContext)
+        private readonly IMapper _mapper;
+
+        public FightService(DataContext dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
+            _mapper = mapper;
         }
 
 
@@ -197,5 +201,20 @@ namespace _net.Services.FightService
 
             return response;
         }
+
+        public async Task<ServiceResponse<List<HighScoreDto>>> GetHighScore()
+        {
+            var characters = await _dataContext.Characters
+                .Where(c => c.Fights > 0)
+                .OrderByDescending(c => c.Victories)
+                .ThenBy(c => c.Defeats)
+                .ToListAsync();
+
+            var response = new ServiceResponse<List<HighScoreDto>>()
+            {
+                Data = characters.Select(c => _mapper.Map<HighScoreDto>(c)).ToList()
+            };
+
+            return response;        }
     }
 }

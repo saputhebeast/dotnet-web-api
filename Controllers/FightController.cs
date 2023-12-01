@@ -33,5 +33,11 @@ namespace _net.Controllers
         {
             return Ok(await _fightService.Fight(fightRequestDto));
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<HighScoreDto>>>> HighScore()
+        {
+            return Ok(await _fightService.GetHighScore());
+        }
     }
 }
