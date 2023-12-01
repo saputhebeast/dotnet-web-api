@@ -1,7 +1,9 @@
-﻿namespace _net.Services.FightService
+﻿using _net.Dtos.Fight;
+
+namespace _net.Services.FightService
 {
-    public class IFightService
+    public interface IFightService
     {
-    
+        Task<ServiceResponse<AttackResultDto>> WeaponAttack(WeaponAttackDto weaponAttackDto);
     }
 }
